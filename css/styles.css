@@ -162,3 +162,129 @@ img{max-width:100%;display:block}
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+
+/* ============================================================
+   BRAND REFRESH v2.1
+   Transparent De mí para mí logo + high-contrast Feliciómetro wordmark
+============================================================ */
+
+.welcome-brand{
+  margin:-18px auto -78px;
+  min-height:250px;
+  align-items:flex-start;
+  pointer-events:none;
+}
+
+.welcome-brand img{
+  width:min(310px,80vw);
+  max-height:none;
+  height:auto;
+  object-fit:contain;
+  filter:
+    drop-shadow(0 14px 22px rgba(34,65,135,.18))
+    drop-shadow(0 3px 4px rgba(255,255,255,.45));
+}
+
+.feliciometro-wordmark{
+  display:block;
+  width:min(100%,430px);
+  height:auto;
+  object-fit:contain;
+  margin:7px auto 4px;
+  filter:
+    drop-shadow(0 7px 9px rgba(30,53,130,.20))
+    drop-shadow(0 2px 0 rgba(255,255,255,.92));
+  animation:titleWordmarkFloat 4.8s ease-in-out infinite;
+}
+
+.welcome-wordmark{
+  max-width:420px;
+}
+
+.thanks-wordmark{
+  width:min(100%,360px);
+  margin:0 auto 8px;
+}
+
+@keyframes titleWordmarkFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-3px) scale(1.012)}
+}
+
+/* Logo in headers: larger and clearer but still compact */
+.mobile-header img{
+  width:168px;
+  height:82px;
+  object-fit:contain;
+  filter:
+    drop-shadow(0 8px 12px rgba(43,70,130,.14))
+    drop-shadow(0 1px 0 rgba(255,255,255,.7));
+}
+
+.thanks-logo{
+  width:238px;
+  height:172px;
+  object-fit:contain;
+  margin:-16px auto -24px;
+  filter:drop-shadow(0 10px 16px rgba(40,70,130,.15));
+}
+
+.admin-title > img{
+  width:150px;
+  height:auto;
+  max-height:115px;
+  object-fit:contain;
+  margin:0 auto -10px;
+}
+
+/* Give the welcome card enough visual breathing room for the new wordmark */
+.hero-card{
+  padding-top:25px;
+}
+
+.hero-card h2{
+  margin-top:3px;
+}
+
+/* Avoid any accidental opaque box around transparent raster assets */
+.welcome-brand img,
+.mobile-header img,
+.thanks-logo,
+.admin-title > img,
+.feliciometro-wordmark{
+  background:transparent !important;
+  border:0 !important;
+}
+
+/* Small phones */
+@media(max-width:390px){
+  .welcome-brand{
+    margin:-12px auto -72px;
+    min-height:225px;
+  }
+  .welcome-brand img{
+    width:min(285px,79vw);
+  }
+  .feliciometro-wordmark{
+    width:100%;
+  }
+  .mobile-header img{
+    width:148px;
+    height:72px;
+  }
+}
+
+/* Very small phones */
+@media(max-width:340px){
+  .welcome-brand{
+    min-height:205px;
+    margin:-8px auto -65px;
+  }
+  .welcome-brand img{
+    width:250px;
+  }
+  .feliciometro-wordmark{
+    margin-top:5px;
+  }
+}
