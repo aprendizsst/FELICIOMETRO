@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#7fd7ff">
+  <title>Feliciómetro | De mí para mí</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div class="background-decor" aria-hidden="true">
+    <div class="sun">☀️</div>
+    <div class="float f1">💗</div>
+    <div class="float f2">⭐</div>
+    <div class="float f3">💛</div>
+    <div class="float f4">✨</div>
+  </div>
+
+  <main class="app">
+    <section class="screen active" data-screen="welcome">
+      <div class="top-brand">
+        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+      </div>
+
+      <div class="rainbow-scene" aria-hidden="true">
+        <div class="rainbow r1"></div>
+        <div class="rainbow r2"></div>
+        <div class="rainbow r3"></div>
+        <div class="rainbow r4"></div>
+        <div class="rainbow r5"></div>
+        <div class="hero-heart">💗</div>
+      </div>
+
+      <article class="glass hero-card">
+        <span class="pill">Hoy también cuenta 💛</span>
+        <h1 class="rainbow-text">Feliciómetro</h1>
+        <h2>Tu bienestar también cuenta</h2>
+        <div class="underline"></div>
+
+        <form id="nameForm">
+          <label for="nameInput">¿Cómo quieres que te llamemos?</label>
+          <div class="input-box">
+            <span>👤</span>
+            <input id="nameInput" maxlength="40" placeholder="Ingresa tu nombre" autocomplete="name" required>
+          </div>
+          <button class="primary" type="submit">Continuar <span>→</span></button>
+        </form>
+
+        <div class="privacy">
+          <span>🛡️</span>
+          <p>Tu nombre solo acompaña esta experiencia. No se mostrará en el dashboard colectivo.</p>
+        </div>
+      </article>
+
+      <div class="features">
+        <div><b>💗</b><span>Comparte cómo te sientes</span></div>
+        <div><b>📊</b><span>Suma al bienestar colectivo</span></div>
+        <div><b>✨</b><span>Construimos días más felices</span></div>
+      </div>
+
+      <button id="openAdmin" class="admin-link">🔐 Acceso administrador</button>
+    </section>
+
+    <section class="screen" data-screen="mood">
+      <header class="header">
+        <button class="back" data-go="welcome">‹</button>
+        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+      </header>
+
+      <div class="progress">
+        <div><span class="on"></span><span></span><span></span></div>
+        <small>Paso 1 de 3</small>
+      </div>
+
+      <article class="glass question">
+        <span class="pill">Hola, <strong id="helloName"></strong> 💛</span>
+        <h2>¿CÓMO ESTÁ TU <span class="rainbow-text">FELICIDAD HOY?</span></h2>
+        <p>Selecciona la opción que mejor represente cómo te sientes en este momento.</p>
+      </article>
+
+      <div class="moods">
+        <button class="mood m1" data-mood="1"><span>😔</span><b>1 · Hoy necesito una pausa</b><i>✓</i></button>
+        <button class="mood m2" data-mood="2"><span>😕</span><b>2 · Estoy afrontando algunos retos</b><i>✓</i></button>
+        <button class="mood m3" data-mood="3"><span>🙂</span><b>3 · Estoy bien</b><i>✓</i></button>
+        <button class="mood m4" data-mood="4"><span>😊</span><b>4 · Me siento bien y con energía</b><i>✓</i></button>
+        <button class="mood m5" data-mood="5"><span>🤩</span><b>5 · ¡Estoy brillando!</b><i>✓</i></button>
+      </div>
+
+      <button id="goNeeds" class="primary full" disabled>Continuar <span>→</span></button>
+    </section>
+
+    <section class="screen" data-screen="needs">
+      <header class="header">
+        <button class="back" data-go="mood">‹</button>
+        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+      </header>
+
+      <div class="progress">
+        <div><span class="on"></span><span class="on"></span><span></span></div>
+        <small>Paso 2 de 3</small>
+      </div>
+
+      <article class="glass question">
+        <h2>¿QUÉ NECESITAS HOY <span class="pink">PARA SENTIRTE MEJOR?</span></h2>
+        <p>Puedes elegir una o varias opciones. No hay respuestas incorrectas.</p>
+      </article>
+
+      <div class="needs">
+        <button data-need="conexion"><span>🤝</span><b>Conexión</b><i>✓</i></button>
+        <button data-need="pausa"><span>🧘</span><b>Una pausa</b><i>✓</i></button>
+        <button data-need="escuchado"><span>💬</span><b>Ser escuchado</b><i>✓</i></button>
+        <button data-need="motivacion"><span>🌱</span><b>Motivación</b><i>✓</i></button>
+        <button data-need="reconocimiento"><span>❤️</span><b>Reconocimiento</b><i>✓</i></button>
+        <button data-need="sonreir"><span>😄</span><b>Un momento para sonreír</b><i>✓</i></button>
+        <button class="wide" data-need="contagiar"><span>✨</span><b>Estoy bien, ¡quiero contagiarlo!</b><i>✓</i></button>
+      </div>
+
+      <button id="submitResponse" class="primary full" disabled>Enviar mi respuesta <span>→</span></button>
+    </section>
+
+    <section class="screen" data-screen="thanks">
+      <div class="progress">
+        <div><span class="on"></span><span class="on"></span><span class="on"></span></div>
+        <small>Paso 3 de 3 · ¡Completado!</small>
+      </div>
+
+      <div class="celebration">
+        <div class="big-rainbow">🌈</div>
+        <div class="big-heart">💗</div>
+      </div>
+
+      <article class="glass thanks">
+        <h1 class="rainbow-text">Feliciómetro</h1>
+        <h2>Gracias por decir cómo te sientes. Tu bienestar también cuenta.</h2>
+        <p>Tu respuesta se suma al bienestar colectivo de nuestra organización.</p>
+        <button id="viewDashboard" class="primary full">Ver dashboard <span>→</span></button>
+      </article>
+
+      <img class="footer-logo" src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+    </section>
+
+    <section class="screen" data-screen="dashboard">
+      <header class="header">
+        <button class="back" data-go="welcome">‹</button>
+        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+      </header>
+
+      <article class="glass dashboard-hero">
+        <span class="live"><i></i> En tiempo real</span>
+        <h2>Así va nuestra <span class="rainbow-text">felicidad hoy</span></h2>
+        <p>Un bienestar más brillante, en equipo.</p>
+
+        <div class="gauge">
+          <div class="arc"></div>
+          <div id="needle" class="needle"></div>
+          <div class="score"><span>😊</span><strong id="avgScore">0.0</strong><small>/5</small></div>
+        </div>
+        <small>Promedio de felicidad colectiva</small>
+      </article>
+
+      <div class="stats">
+        <article class="stat pink-card"><span>💗</span><strong id="total">0</strong><p>sonrisas registradas 😊</p></article>
+        <article class="stat green-card"><span>⚡</span><strong id="energy">0%</strong><p>se siente con energía</p></article>
+        <article class="stat purple-card"><span>🧘</span><strong id="pause">0%</strong><p>necesita una pausa</p></article>
+      </div>
+
+      <article class="glass chart-card">
+        <div class="chart-title"><h3>Tendencia de felicidad</h3><span class="live"><i></i> En vivo</span></div>
+        <div id="trend" class="bars"></div>
+      </article>
+
+      <div class="privacy public">
+        <span>🛡️</span>
+        <p><b>Sin nombres ni respuestas individuales.</b><br>Este es un resultado colectivo y anónimo.</p>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="admin-login">
+      <header class="header">
+        <button class="back" data-go="welcome">‹</button>
+        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+      </header>
+
+      <article class="glass login">
+        <div class="crown">👑</div>
+        <h2>Panel administrador</h2>
+        <p>Acceso privado para gestionar el Feliciómetro.</p>
+
+        <form id="adminForm">
+          <label>Correo</label>
+          <input id="adminEmail" type="email" required placeholder="admin@empresa.com">
+          <label>Contraseña</label>
+          <input id="adminPassword" type="password" required placeholder="••••••••">
+          <button class="primary full" type="submit">Ingresar <span>→</span></button>
+          <small id="adminError"></small>
+        </form>
+      </article>
+    </section>
+
+    <section class="screen" data-screen="admin">
+      <div class="admin-top">
+        <div><span>👑</span><div><b>Admin</b><small>Panel de gestión</small></div></div>
+        <button id="logout">Cerrar sesión</button>
+      </div>
+
+      <article class="glass admin-title">
+        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+        <h2>Feliciómetro 🔐</h2>
+        <p>Bienestar colectivo, mayores sonrisas.</p>
+      </article>
+
+      <div class="admin-stats">
+        <article class="pink-card"><span>💬</span><strong id="aTotal">0</strong><small>Total respuestas</small></article>
+        <article class="yellow-card"><span>😊</span><strong id="aAvg">0.0</strong><small>Promedio felicidad</small></article>
+        <article class="purple-card"><span>🧘</span><strong id="aPause">0</strong><small>Necesita pausa</small></article>
+        <article class="green-card"><span>⚡</span><strong id="aEnergy">0</strong><small>Con energía</small></article>
+      </div>
+
+      <article class="glass chart-card">
+        <div class="chart-title"><h3>Tendencia colectiva</h3><small>Últimas respuestas</small></div>
+        <div id="adminTrend" class="bars"></div>
+      </article>
+
+      <div class="admin-actions">
+        <button id="refresh">📊 Actualizar</button>
+        <button id="festival">🖥️ Pantalla festival</button>
+        <button id="export">⬇️ Exportar CSV</button>
+        <button id="copyLink">🔗 Copiar enlace</button>
+      </div>
+
+      <div class="privacy public">
+        <span>🛡️</span>
+        <p><b>Privacidad primero.</b><br>El panel muestra resultados agregados y anónimos.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

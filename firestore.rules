@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /responses/{responseId} {
+      allow create: if
+        request.resource.data.happiness is int &&
+        request.resource.data.happiness >= 1 &&
+        request.resource.data.happiness <= 5 &&
+        request.resource.data.needs is list &&
+        request.resource.data.needs.size() >= 1 &&
+        request.resource.data.needs.size() <= 7;
+      allow read, update, delete: if request.auth != null;
+    }
+    match /publicStats/live {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
