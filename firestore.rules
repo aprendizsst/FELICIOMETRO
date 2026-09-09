@@ -1,19 +1,29 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Los participantes pueden registrar su respuesta desde el QR.
+    // No pueden leer, editar ni borrar respuestas.
     match /responses/{responseId} {
       allow create: if
+        request.resource.data.keys().hasOnly([
+          'name', 'happiness', 'needs', 'createdAt', 'source', 'version'
+        ]) &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() >= 1 &&
+        request.resource.data.name.size() <= 40 &&
         request.resource.data.happiness is int &&
         request.resource.data.happiness >= 1 &&
         request.resource.data.happiness <= 5 &&
         request.resource.data.needs is list &&
         request.resource.data.needs.size() >= 1 &&
-        request.resource.data.needs.size() <= 7;
-      allow read, update, delete: if request.auth != null;
-    }
-    match /publicStats/live {
-      allow read: if true;
-      allow write: if false;
+        request.resource.data.needs.size() <= 7 &&
+        request.resource.data.source == 'qr-web' &&
+        request.resource.data.version == 2;
+
+      // Solo un usuario autenticado (administrador) puede ver los registros.
+      allow read: if request.auth != null;
+      allow update, delete: if false;
     }
   }
 }

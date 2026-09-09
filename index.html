@@ -3,112 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#7fd7ff">
+  <meta name="theme-color" content="#7fdcff">
+  <meta name="description" content="Feliciómetro De mí para mí - Bienestar colectivo en tiempo real">
   <title>Feliciómetro | De mí para mí</title>
+
+  <link rel="icon" type="image/svg+xml" href="./assets/feliciometro-icon.svg">
+  <link rel="apple-touch-icon" href="./assets/feliciometro-icon.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-  <div class="background-decor" aria-hidden="true">
-    <div class="sun">☀️</div>
-    <div class="float f1">💗</div>
-    <div class="float f2">⭐</div>
-    <div class="float f3">💛</div>
-    <div class="float f4">✨</div>
+  <div class="ambient" aria-hidden="true">
+    <div class="ambient-orb orb-a"></div>
+    <div class="ambient-orb orb-b"></div>
+    <div class="ambient-orb orb-c"></div>
+    <div class="ambient-cloud cloud-a"></div>
+    <div class="ambient-cloud cloud-b"></div>
+    <div class="ambient-float float-a">💗</div>
+    <div class="ambient-float float-b">⭐</div>
+    <div class="ambient-float float-c">💛</div>
+    <div class="ambient-float float-d">✨</div>
   </div>
 
-  <main class="app">
-    <section class="screen active" data-screen="welcome">
-      <div class="top-brand">
-        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+  <main class="app" id="app">
+    <!-- =========================================================
+         BIENVENIDA
+    ========================================================== -->
+    <section class="screen active welcome-screen" data-screen="welcome">
+      <div class="welcome-brand brand-enter">
+        <img src="./assets/logo-de-mi-para-mi.png" alt="De mí para mí">
       </div>
 
       <div class="rainbow-scene" aria-hidden="true">
-        <div class="rainbow r1"></div>
-        <div class="rainbow r2"></div>
-        <div class="rainbow r3"></div>
-        <div class="rainbow r4"></div>
-        <div class="rainbow r5"></div>
-        <div class="hero-heart">💗</div>
+        <div class="magic-dust dust-1">✦</div>
+        <div class="magic-dust dust-2">✧</div>
+        <div class="magic-dust dust-3">✦</div>
+        <div class="magic-dust dust-4">✧</div>
+        <div class="magic-rainbow band band-1"></div>
+        <div class="magic-rainbow band band-2"></div>
+        <div class="magic-rainbow band band-3"></div>
+        <div class="magic-rainbow band band-4"></div>
+        <div class="magic-rainbow band band-5"></div>
+        <div class="rainbow-heart">💗</div>
       </div>
 
-      <article class="glass hero-card">
-        <span class="pill">Hoy también cuenta 💛</span>
-        <h1 class="rainbow-text">Feliciómetro</h1>
+      <article class="glass hero-card float-card">
+        <span class="soft-pill shimmer-pill">Hoy también cuenta 💛</span>
+        <h1 class="rainbow-text main-title">Feliciómetro</h1>
         <h2>Tu bienestar también cuenta</h2>
-        <div class="underline"></div>
+        <div class="pink-stroke"></div>
 
-        <form id="nameForm">
-          <label for="nameInput">¿Cómo quieres que te llamemos?</label>
-          <div class="input-box">
-            <span>👤</span>
+        <form id="nameForm" class="name-form">
+          <label for="nameInput">Antes de comenzar, ¿cómo te llamas?</label>
+          <div class="input-shell">
+            <span aria-hidden="true">👤</span>
             <input id="nameInput" maxlength="40" placeholder="Ingresa tu nombre" autocomplete="name" required>
           </div>
-          <button class="primary" type="submit">Continuar <span>→</span></button>
+          <button class="primary-btn shine-btn" type="submit">
+            <span>Comenzar mi experiencia</span><span aria-hidden="true">→</span>
+          </button>
         </form>
 
-        <div class="privacy">
-          <span>🛡️</span>
-          <p>Tu nombre solo acompaña esta experiencia. No se mostrará en el dashboard colectivo.</p>
+        <div class="participant-note">
+          <span>🔐</span>
+          <p>Tu nombre nos permite personalizar la experiencia y solo será visible para el administrador del Feliciómetro.</p>
         </div>
       </article>
 
-      <div class="features">
-        <div><b>💗</b><span>Comparte cómo te sientes</span></div>
-        <div><b>📊</b><span>Suma al bienestar colectivo</span></div>
-        <div><b>✨</b><span>Construimos días más felices</span></div>
+      <div class="feature-strip">
+        <div><span>💗</span><small>Cuéntanos<br>cómo estás</small></div>
+        <div><span>🌈</span><small>Vive una experiencia<br>más cercana</small></div>
+        <div><span>✨</span><small>Tu respuesta<br>sí cuenta</small></div>
       </div>
 
-      <button id="openAdmin" class="admin-link">🔐 Acceso administrador</button>
+      <button id="openAdmin" class="admin-access">🔐 Acceso administrador</button>
     </section>
 
+    <!-- =========================================================
+         PASO 1
+    ========================================================== -->
     <section class="screen" data-screen="mood">
-      <header class="header">
-        <button class="back" data-go="welcome">‹</button>
-        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+      <header class="mobile-header">
+        <button class="round-back" data-go="welcome" aria-label="Volver">‹</button>
+        <img src="./assets/logo-de-mi-para-mi.png" alt="De mí para mí">
       </header>
 
-      <div class="progress">
-        <div><span class="on"></span><span></span><span></span></div>
+      <div class="stepper">
+        <div class="step-track"><span class="done"></span><span></span><span></span></div>
         <small>Paso 1 de 3</small>
       </div>
 
-      <article class="glass question">
-        <span class="pill">Hola, <strong id="helloName"></strong> 💛</span>
+      <article class="glass question-card question-enter">
+        <span class="soft-pill">Hola, <strong id="helloName">tú</strong> 💛</span>
         <h2>¿CÓMO ESTÁ TU <span class="rainbow-text">FELICIDAD HOY?</span></h2>
-        <p>Selecciona la opción que mejor represente cómo te sientes en este momento.</p>
+        <p id="moodPersonalText">Quiero saber cómo estás en este momento.</p>
       </article>
 
-      <div class="moods">
-        <button class="mood m1" data-mood="1"><span>😔</span><b>1 · Hoy necesito una pausa</b><i>✓</i></button>
-        <button class="mood m2" data-mood="2"><span>😕</span><b>2 · Estoy afrontando algunos retos</b><i>✓</i></button>
-        <button class="mood m3" data-mood="3"><span>🙂</span><b>3 · Estoy bien</b><i>✓</i></button>
-        <button class="mood m4" data-mood="4"><span>😊</span><b>4 · Me siento bien y con energía</b><i>✓</i></button>
-        <button class="mood m5" data-mood="5"><span>🤩</span><b>5 · ¡Estoy brillando!</b><i>✓</i></button>
+      <div class="mood-list" id="moodList">
+        <button class="mood-option mood-1" data-mood="1">
+          <span class="mood-emoji">😔</span><b>1 · Hoy necesito una pausa</b><i>✓</i>
+        </button>
+        <button class="mood-option mood-2" data-mood="2">
+          <span class="mood-emoji">😕</span><b>2 · Estoy afrontando algunos retos</b><i>✓</i>
+        </button>
+        <button class="mood-option mood-3" data-mood="3">
+          <span class="mood-emoji">🙂</span><b>3 · Estoy bien</b><i>✓</i>
+        </button>
+        <button class="mood-option mood-4" data-mood="4">
+          <span class="mood-emoji">😊</span><b>4 · Me siento bien y con energía</b><i>✓</i>
+        </button>
+        <button class="mood-option mood-5" data-mood="5">
+          <span class="mood-emoji">🤩</span><b>5 · ¡Estoy brillando!</b><i>✓</i>
+        </button>
       </div>
 
-      <button id="goNeeds" class="primary full" disabled>Continuar <span>→</span></button>
+      <button id="goNeeds" class="primary-btn full-btn shine-btn" disabled>
+        Continuar <span aria-hidden="true">→</span>
+      </button>
     </section>
 
+    <!-- =========================================================
+         PASO 2
+    ========================================================== -->
     <section class="screen" data-screen="needs">
-      <header class="header">
-        <button class="back" data-go="mood">‹</button>
-        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+      <header class="mobile-header">
+        <button class="round-back" data-go="mood" aria-label="Volver">‹</button>
+        <img src="./assets/logo-de-mi-para-mi.png" alt="De mí para mí">
       </header>
 
-      <div class="progress">
-        <div><span class="on"></span><span class="on"></span><span></span></div>
+      <div class="stepper">
+        <div class="step-track"><span class="done"></span><span class="done"></span><span></span></div>
         <small>Paso 2 de 3</small>
       </div>
 
-      <article class="glass question">
-        <h2>¿QUÉ NECESITAS HOY <span class="pink">PARA SENTIRTE MEJOR?</span></h2>
+      <article class="glass question-card question-enter">
+        <span class="soft-pill"><strong id="needName">Tú</strong>, estamos contigo 💗</span>
+        <h2>¿QUÉ NECESITAS HOY <span class="pink-text">PARA SENTIRTE MEJOR?</span></h2>
         <p>Puedes elegir una o varias opciones. No hay respuestas incorrectas.</p>
       </article>
 
-      <div class="needs">
+      <div class="needs-grid" id="needsGrid">
         <button data-need="conexion"><span>🤝</span><b>Conexión</b><i>✓</i></button>
         <button data-need="pausa"><span>🧘</span><b>Una pausa</b><i>✓</i></button>
         <button data-need="escuchado"><span>💬</span><b>Ser escuchado</b><i>✓</i></button>
@@ -118,127 +155,195 @@
         <button class="wide" data-need="contagiar"><span>✨</span><b>Estoy bien, ¡quiero contagiarlo!</b><i>✓</i></button>
       </div>
 
-      <button id="submitResponse" class="primary full" disabled>Enviar mi respuesta <span>→</span></button>
+      <button id="submitResponse" class="primary-btn full-btn shine-btn" disabled>
+        Enviar mi respuesta <span aria-hidden="true">→</span>
+      </button>
     </section>
 
-    <section class="screen" data-screen="thanks">
-      <div class="progress">
-        <div><span class="on"></span><span class="on"></span><span class="on"></span></div>
+    <!-- =========================================================
+         GRACIAS
+    ========================================================== -->
+    <section class="screen thanks-screen" data-screen="thanks">
+      <div class="stepper thanks-stepper">
+        <div class="step-track"><span class="done"></span><span class="done"></span><span class="done"></span></div>
         <small>Paso 3 de 3 · ¡Completado!</small>
       </div>
 
-      <div class="celebration">
-        <div class="big-rainbow">🌈</div>
-        <div class="big-heart">💗</div>
+      <div class="celebration" aria-hidden="true">
+        <div class="celebration-rainbow">🌈</div>
+        <div class="celebration-heart">💗</div>
+        <div class="confetti c1">✨</div><div class="confetti c2">⭐</div><div class="confetti c3">💛</div><div class="confetti c4">💗</div>
       </div>
 
-      <article class="glass thanks">
+      <article class="glass thanks-card">
+        <img src="./assets/logo-de-mi-para-mi.png" class="thanks-logo" alt="De mí para mí">
         <h1 class="rainbow-text">Feliciómetro</h1>
-        <h2>Gracias por decir cómo te sientes. Tu bienestar también cuenta.</h2>
-        <p>Tu respuesta se suma al bienestar colectivo de nuestra organización.</p>
-        <button id="viewDashboard" class="primary full">Ver dashboard <span>→</span></button>
+        <h2>Gracias, <span id="thanksName">tú</span>. 💛</h2>
+        <p id="thanksMessage">Gracias por decir cómo te sientes. Tu bienestar también cuenta.</p>
+        <div class="closing-message">Tu respuesta ya hace parte de nuestro bienestar colectivo ✨</div>
+        <button id="finishExperience" class="primary-btn full-btn shine-btn">Finalizar <span>✓</span></button>
       </article>
-
-      <img class="footer-logo" src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
     </section>
 
-    <section class="screen" data-screen="dashboard">
-      <header class="header">
-        <button class="back" data-go="welcome">‹</button>
-        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
-      </header>
-
-      <article class="glass dashboard-hero">
-        <span class="live"><i></i> En tiempo real</span>
-        <h2>Así va nuestra <span class="rainbow-text">felicidad hoy</span></h2>
-        <p>Un bienestar más brillante, en equipo.</p>
-
-        <div class="gauge">
-          <div class="arc"></div>
-          <div id="needle" class="needle"></div>
-          <div class="score"><span>😊</span><strong id="avgScore">0.0</strong><small>/5</small></div>
-        </div>
-        <small>Promedio de felicidad colectiva</small>
-      </article>
-
-      <div class="stats">
-        <article class="stat pink-card"><span>💗</span><strong id="total">0</strong><p>sonrisas registradas 😊</p></article>
-        <article class="stat green-card"><span>⚡</span><strong id="energy">0%</strong><p>se siente con energía</p></article>
-        <article class="stat purple-card"><span>🧘</span><strong id="pause">0%</strong><p>necesita una pausa</p></article>
-      </div>
-
-      <article class="glass chart-card">
-        <div class="chart-title"><h3>Tendencia de felicidad</h3><span class="live"><i></i> En vivo</span></div>
-        <div id="trend" class="bars"></div>
-      </article>
-
-      <div class="privacy public">
-        <span>🛡️</span>
-        <p><b>Sin nombres ni respuestas individuales.</b><br>Este es un resultado colectivo y anónimo.</p>
-      </div>
-    </section>
-
+    <!-- =========================================================
+         LOGIN ADMIN
+    ========================================================== -->
     <section class="screen" data-screen="admin-login">
-      <header class="header">
-        <button class="back" data-go="welcome">‹</button>
-        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
+      <header class="mobile-header">
+        <button class="round-back" data-go="welcome" aria-label="Volver">‹</button>
+        <img src="./assets/logo-de-mi-para-mi.png" alt="De mí para mí">
       </header>
 
-      <article class="glass login">
-        <div class="crown">👑</div>
+      <article class="glass login-card">
+        <div class="admin-crown">👑</div>
         <h2>Panel administrador</h2>
-        <p>Acceso privado para gestionar el Feliciómetro.</p>
+        <p>Los resultados, usuarios y respuestas solo están disponibles para usuarios autorizados.</p>
 
-        <form id="adminForm">
-          <label>Correo</label>
-          <input id="adminEmail" type="email" required placeholder="admin@empresa.com">
-          <label>Contraseña</label>
-          <input id="adminPassword" type="password" required placeholder="••••••••">
-          <button class="primary full" type="submit">Ingresar <span>→</span></button>
-          <small id="adminError"></small>
+        <form id="adminForm" class="admin-form">
+          <label for="adminEmail">Correo</label>
+          <input id="adminEmail" type="email" autocomplete="username" required placeholder="admin@empresa.com">
+          <label for="adminPassword">Contraseña</label>
+          <input id="adminPassword" type="password" autocomplete="current-password" required placeholder="••••••••">
+          <button class="primary-btn full-btn" type="submit">Ingresar <span>→</span></button>
+          <small id="adminError" class="form-error"></small>
         </form>
       </article>
     </section>
 
-    <section class="screen" data-screen="admin">
-      <div class="admin-top">
-        <div><span>👑</span><div><b>Admin</b><small>Panel de gestión</small></div></div>
-        <button id="logout">Cerrar sesión</button>
-      </div>
+    <!-- =========================================================
+         ADMIN / DASHBOARD
+    ========================================================== -->
+    <section class="screen admin-screen" data-screen="admin">
+      <header class="admin-header glass">
+        <div class="admin-id">
+          <span class="admin-avatar">👑</span>
+          <div><b>Administrador</b><small id="adminEmailLabel">Panel en vivo</small></div>
+        </div>
+        <button id="logout" class="soft-action">Cerrar sesión</button>
+      </header>
 
-      <article class="glass admin-title">
-        <img src="./assets/logo-de-mi-para-mi.svg" alt="De mí para mí">
-        <h2>Feliciómetro 🔐</h2>
-        <p>Bienestar colectivo, mayores sonrisas.</p>
+      <article class="glass admin-brand-card">
+        <img src="./assets/logo-de-mi-para-mi.png" alt="De mí para mí">
+        <div>
+          <span class="live-chip"><i></i> Firebase en vivo</span>
+          <h2>Feliciómetro</h2>
+          <p>Datos reales de todas las respuestas registradas.</p>
+        </div>
       </article>
 
-      <div class="admin-stats">
-        <article class="pink-card"><span>💬</span><strong id="aTotal">0</strong><small>Total respuestas</small></article>
-        <article class="yellow-card"><span>😊</span><strong id="aAvg">0.0</strong><small>Promedio felicidad</small></article>
-        <article class="purple-card"><span>🧘</span><strong id="aPause">0</strong><small>Necesita pausa</small></article>
-        <article class="green-card"><span>⚡</span><strong id="aEnergy">0</strong><small>Con energía</small></article>
+      <div class="admin-kpis">
+        <article class="kpi pink-kpi"><span>💬</span><strong id="adminTotal">0</strong><small>Respuestas</small></article>
+        <article class="kpi blue-kpi"><span>👥</span><strong id="adminUsers">0</strong><small>Participantes</small></article>
+        <article class="kpi yellow-kpi"><span id="adminAvgFace">😶</span><strong id="adminAvg">0.0</strong><small>Promedio / 5</small></article>
+        <article class="kpi green-kpi"><span>⚡</span><strong id="adminEnergy">0%</strong><small>Con energía</small></article>
+        <article class="kpi purple-kpi wide-kpi"><span>🧘</span><strong id="adminPause">0%</strong><small>Necesita una pausa</small></article>
       </div>
 
-      <article class="glass chart-card">
-        <div class="chart-title"><h3>Tendencia colectiva</h3><small>Últimas respuestas</small></div>
-        <div id="adminTrend" class="bars"></div>
+      <article class="glass admin-dashboard-preview">
+        <div>
+          <span class="live-chip"><i></i> Actualización automática</span>
+          <h3>Vista de felicidad en vivo</h3>
+          <p>El medidor, la carita y el gráfico cambian en cuanto entra una nueva respuesta.</p>
+        </div>
+        <button id="openFestival" class="secondary-btn">Abrir vista de resultados →</button>
+      </article>
+
+      <article class="glass responses-panel">
+        <div class="responses-heading">
+          <div>
+            <span class="live-chip"><i></i> En vivo</span>
+            <h3>Participantes y respuestas</h3>
+            <p id="responsesCountText">Esperando datos...</p>
+          </div>
+        </div>
+
+        <div class="response-filters">
+          <div class="search-shell"><span>🔎</span><input id="responseSearch" placeholder="Buscar por nombre"></div>
+          <select id="moodFilter" aria-label="Filtrar por felicidad">
+            <option value="all">Todos los niveles</option>
+            <option value="1">1 · Necesita pausa</option>
+            <option value="2">2 · Afronta retos</option>
+            <option value="3">3 · Está bien</option>
+            <option value="4">4 · Con energía</option>
+            <option value="5">5 · Brillando</option>
+          </select>
+        </div>
+
+        <div id="responsesList" class="responses-list">
+          <div class="empty-state"><span>☁️</span><p>Las respuestas aparecerán aquí automáticamente.</p></div>
+        </div>
       </article>
 
       <div class="admin-actions">
-        <button id="refresh">📊 Actualizar</button>
-        <button id="festival">🖥️ Pantalla festival</button>
-        <button id="export">⬇️ Exportar CSV</button>
-        <button id="copyLink">🔗 Copiar enlace</button>
+        <button id="exportCsv">⬇️ Exportar respuestas</button>
+        <button id="copyLink">🔗 Copiar enlace público</button>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VISTA DE RESULTADOS - SOLO ADMIN AUTENTICADO
+    ========================================================== -->
+    <section class="screen dashboard-screen" data-screen="dashboard">
+      <header class="mobile-header dashboard-header">
+        <button class="round-back" data-go="admin" aria-label="Volver al panel">‹</button>
+        <img src="./assets/logo-de-mi-para-mi.png" alt="De mí para mí">
+        <span class="admin-only-badge">🔐 Admin</span>
+      </header>
+
+      <article class="glass dashboard-hero">
+        <div class="dashboard-title-row">
+          <div>
+            <span class="live-chip"><i></i> En tiempo real</span>
+            <h2>Así va nuestra <span class="rainbow-text">felicidad hoy</span></h2>
+            <p id="dashboardStatus">Cargando datos reales...</p>
+          </div>
+        </div>
+
+        <div id="dashboardLoader" class="dashboard-loader active" aria-label="Cargando datos">
+          <div class="loading-ring"></div>
+          <span>Conectando con las respuestas...</span>
+        </div>
+
+        <div class="happiness-meter" id="happinessMeter">
+          <div class="meter-arc"></div>
+          <div class="meter-ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+          <div class="meter-needle" id="meterNeedle"></div>
+          <div class="meter-center">
+            <span id="meterFace" class="meter-face">😶</span>
+            <div><strong id="dashboardAvg">0.0</strong><small>/5</small></div>
+            <p id="meterMoodLabel">Esperando respuestas</p>
+          </div>
+        </div>
+      </article>
+
+      <div class="dashboard-stats">
+        <article class="dash-stat pink-kpi"><span>💗</span><strong id="dashboardTotal">0</strong><p>respuestas registradas</p></article>
+        <article class="dash-stat green-kpi"><span>⚡</span><strong id="dashboardEnergy">0%</strong><p>se siente con energía</p></article>
+        <article class="dash-stat purple-kpi"><span>🧘</span><strong id="dashboardPause">0%</strong><p>necesita una pausa</p></article>
       </div>
 
-      <div class="privacy public">
-        <span>🛡️</span>
-        <p><b>Privacidad primero.</b><br>El panel muestra resultados agregados y anónimos.</p>
+      <article class="glass live-chart-card">
+        <div class="live-chart-heading">
+          <div>
+            <span class="live-chip"><i></i> En vivo</span>
+            <h3>Últimas respuestas</h3>
+            <p>Cada barra representa el nivel de felicidad de una respuesta reciente.</p>
+          </div>
+          <div class="scale-help"><span>😔 1</span><span>5 🤩</span></div>
+        </div>
+
+        <div class="chart-y-labels" aria-hidden="true"><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+        <div id="liveBars" class="live-bars" aria-label="Gráfico de últimas respuestas"></div>
+      </article>
+
+      <div class="dashboard-footer-note glass">
+        <span>🔐</span>
+        <p><b>Vista privada.</b> Este dashboard solo está disponible para el administrador autenticado y se actualiza automáticamente con Firestore.</p>
       </div>
     </section>
   </main>
 
-  <div id="toast" class="toast"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script type="module" src="./js/app.js"></script>
 </body>
 </html>
