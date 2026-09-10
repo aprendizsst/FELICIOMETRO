@@ -235,8 +235,8 @@
         <article class="kpi pink-kpi"><span>💬</span><strong id="adminTotal">0</strong><small>Respuestas</small></article>
         <article class="kpi blue-kpi"><span>👥</span><strong id="adminUsers">0</strong><small>Participantes</small></article>
         <article class="kpi yellow-kpi"><span id="adminAvgFace">😶</span><strong id="adminAvg">0.0</strong><small>Promedio / 5</small></article>
-        <article class="kpi green-kpi"><span>⚡</span><strong id="adminEnergy">0%</strong><small>Con energía</small></article>
-        <article class="kpi purple-kpi wide-kpi"><span>🧘</span><strong id="adminPause">0%</strong><small>Necesita una pausa</small></article>
+        <article class="kpi green-kpi"><span>⚡</span><strong id="adminEnergy">0%</strong><small>Con energía</small><em id="adminEnergyDetail" class="kpi-detail">0 de 0 respuestas</em></article>
+        <article class="kpi purple-kpi wide-kpi"><span>🧘</span><strong id="adminPause">0%</strong><small>Necesita una pausa</small><em id="adminPauseDetail" class="kpi-detail">0 de 0 respuestas</em></article>
       </div>
 
       <article class="glass admin-dashboard-preview">
@@ -273,6 +273,14 @@
           <div class="empty-state"><span>☁️</span><p>Las respuestas aparecerán aquí automáticamente.</p></div>
         </div>
       </article>
+
+      <div class="board-reset-status glass">
+        <div>
+          <span>🕒</span>
+          <div><b>Periodo del tablero</b><small id="boardResetInfo">Tablero acumulado desde el primer registro.</small></div>
+        </div>
+        <button id="resetDashboard" class="reset-dashboard-btn">↻ Reiniciar tableros</button>
+      </div>
 
       <div class="admin-actions">
         <button id="exportCsv">⬇️ Exportar respuestas</button>
@@ -318,8 +326,8 @@
 
       <div class="dashboard-stats">
         <article class="dash-stat pink-kpi"><span>💗</span><strong id="dashboardTotal">0</strong><p>respuestas registradas</p></article>
-        <article class="dash-stat green-kpi"><span>⚡</span><strong id="dashboardEnergy">0%</strong><p>se siente con energía</p></article>
-        <article class="dash-stat purple-kpi"><span>🧘</span><strong id="dashboardPause">0%</strong><p>necesita una pausa</p></article>
+        <article class="dash-stat green-kpi"><span>⚡</span><strong id="dashboardEnergy">0%</strong><p>se siente con energía</p><small id="dashboardEnergyDetail" class="dash-detail">0 de 0</small></article>
+        <article class="dash-stat purple-kpi"><span>🧘</span><strong id="dashboardPause">0%</strong><p>necesita una pausa</p><small id="dashboardPauseDetail" class="dash-detail">0 de 0</small></article>
       </div>
 
       <article class="glass live-chart-card">
@@ -342,6 +350,19 @@
       </div>
     </section>
   </main>
+
+  <div id="resetDashboardModal" class="reset-modal" aria-hidden="true">
+    <div class="reset-modal-card glass" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
+      <div class="reset-modal-icon">↻</div>
+      <h3 id="resetModalTitle">¿Reiniciar los tableros?</h3>
+      <p>Los indicadores, porcentajes, gráfico y lista del panel volverán a cero y comenzarán a contar las respuestas que lleguen desde este momento.</p>
+      <div class="reset-safe-note"><span>🛡️</span><p><b>No se borrará el historial de Firestore.</b> Las respuestas anteriores se conservan; simplemente dejan de formar parte de la medición actual.</p></div>
+      <div class="reset-modal-actions">
+        <button id="cancelResetDashboard" class="modal-cancel">Cancelar</button>
+        <button id="confirmResetDashboard" class="modal-confirm">Sí, reiniciar</button>
+      </div>
+    </div>
+  </div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script type="module" src="./js/app.js"></script>

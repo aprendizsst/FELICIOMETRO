@@ -107,3 +107,13 @@ La vista pública solo escribe una respuesta y no descarga la colección. El pan
 - Ajustes responsive para que logo y título se lean correctamente en dispositivos móviles.
 - No se modificó `js/firebase-config.js`.
 - No se modificó la lógica de Firebase ni el dashboard en tiempo real.
+
+
+## v2.2 - Corrección de indicadores y reinicio de tableros
+- `Necesita una pausa` cuenta respuestas con nivel 1 **o** con la necesidad `pausa`, sin duplicar una misma respuesta.
+- `Con energía` cuenta niveles 4 y 5.
+- Los porcentajes se muestran con un decimal y con su numerador/denominador.
+- Se agregó `Reiniciar tableros` al panel administrador.
+- Reiniciar no elimina el historial: guarda un `resetAt` en `adminConfig/dashboard` y la medición vuelve a cero desde ese momento.
+- Las respuestas nuevas siguen actualizando KPIs, listado, medidor y gráfico en tiempo real.
+- Deben publicarse las nuevas reglas de Firestore para permitir el documento privado `adminConfig/dashboard`.

@@ -7,7 +7,10 @@ import {
   serverTimestamp,
   onSnapshot,
   query,
-  orderBy
+  orderBy,
+  doc,
+  setDoc,
+  Timestamp
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import {
   getAuth,
@@ -25,7 +28,12 @@ const state = {
   adminUser: null,
   firebaseReady: false,
   responses: [],
+  allResponses: [],
   responsesUnsub: null,
+  dashboardConfigUnsub: null,
+  resetAt: null,
+  responsesLoaded: false,
+  configLoaded: false,
   firstRealtimeLoad: true,
   lastTopId: null,
   displayAvg: 0,
@@ -182,31 +190,47 @@ async function saveResponse() {
 }
 
 function ensureRealtimeSubscription() {
-  if (!state.firebaseReady || !state.db || !state.adminUser || state.responsesUnsub) return;
+  if (!state.firebaseReady || !state.db || !state.adminUser) return;
+  if (state.responsesUnsub || state.dashboardConfigUnsub) return;
 
   state.firstRealtimeLoad = true;
+  state.responsesLoaded = false;
+  state.configLoaded = false;
   setDashboardLoading(true);
 
-  const responsesQuery = query(collection(state.db, "responses"), orderBy("createdAt", "desc"));
+  // Configuración de la medición actual. El botón "Reiniciar tableros"
+  // no elimina respuestas históricas: define desde qué momento empieza
+  // a contarse la nueva medición.
+  const dashboardConfigRef = doc(state.db, "adminConfig", "dashboard");
+  state.dashboardConfigUnsub = onSnapshot(
+    dashboardConfigRef,
+    snapshot => {
+      const data = snapshot.exists() ? snapshot.data() : {};
+      state.resetAt = timestampToDate(data.resetAt);
+      state.configLoaded = true;
 
+      // Un cambio de corte no debe mostrarse como una nueva respuesta.
+      state.firstRealtimeLoad = true;
+      state.lastTopId = null;
+      applyRealtimeDataset(false);
+      renderResetInfo();
+    },
+    error => {
+      console.error("Error leyendo configuración del tablero", error);
+      state.resetAt = null;
+      state.configLoaded = true;
+      applyRealtimeDataset(false);
+      toast("No se pudo leer el estado del tablero. Revisa las reglas de Firestore.");
+    }
+  );
+
+  const responsesQuery = query(collection(state.db, "responses"), orderBy("createdAt", "desc"));
   state.responsesUnsub = onSnapshot(
     responsesQuery,
     snapshot => {
-      const rows = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
-      const newestId = rows[0]?.id || null;
-      const isNewResponse = !state.firstRealtimeLoad && newestId && state.lastTopId && newestId !== state.lastTopId;
-      const newestResponse = rows[0];
-
-      state.responses = rows;
-      state.lastTopId = newestId;
-      setDashboardLoading(false);
-      renderAllRealtimeViews(rows, isNewResponse);
-
-      if (isNewResponse && newestResponse) {
-        toast(`✨ Nueva respuesta de ${newestResponse.name || "un participante"}`);
-      }
-
-      state.firstRealtimeLoad = false;
+      state.allResponses = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+      state.responsesLoaded = true;
+      applyRealtimeDataset(true);
     },
     error => {
       console.error("Error leyendo respuestas en vivo", error);
@@ -217,14 +241,124 @@ function ensureRealtimeSubscription() {
   );
 }
 
+function responseBelongsToCurrentBoard(row) {
+  if (!state.resetAt) return true;
+  const responseDate = timestampToDate(row.createdAt);
+  if (!responseDate) return false;
+  return responseDate.getTime() >= state.resetAt.getTime();
+}
+
+function applyRealtimeDataset(allowNewResponseToast = false) {
+  if (!state.responsesLoaded || !state.configLoaded) return;
+
+  const rows = state.allResponses.filter(responseBelongsToCurrentBoard);
+  const newestId = rows[0]?.id || null;
+  const isNewResponse = Boolean(
+    allowNewResponseToast &&
+    !state.firstRealtimeLoad &&
+    newestId &&
+    state.lastTopId &&
+    newestId !== state.lastTopId
+  );
+  const newestResponse = rows[0];
+
+  state.responses = rows;
+  state.lastTopId = newestId;
+  setDashboardLoading(false);
+  renderAllRealtimeViews(rows, isNewResponse);
+
+  if (isNewResponse && newestResponse) {
+    toast(`✨ Nueva respuesta de ${newestResponse.name || "un participante"}`);
+  }
+
+  state.firstRealtimeLoad = false;
+}
+
 function stopRealtimeSubscription() {
   if (state.responsesUnsub) {
     state.responsesUnsub();
     state.responsesUnsub = null;
   }
+  if (state.dashboardConfigUnsub) {
+    state.dashboardConfigUnsub();
+    state.dashboardConfigUnsub = null;
+  }
+
   state.responses = [];
+  state.allResponses = [];
+  state.resetAt = null;
+  state.responsesLoaded = false;
+  state.configLoaded = false;
   state.firstRealtimeLoad = true;
   state.lastTopId = null;
+}
+
+function renderResetInfo() {
+  const el = $("#boardResetInfo");
+  if (!el) return;
+
+  if (!state.resetAt) {
+    el.textContent = "Tablero acumulado desde el primer registro.";
+    return;
+  }
+
+  el.textContent = `Medición actual iniciada el ${state.resetAt.toLocaleString("es-CO", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit"
+  })}.`;
+}
+
+async function resetDashboardBoard() {
+  if (!state.adminUser || !state.db) {
+    toast("Debes iniciar sesión como administrador.");
+    return;
+  }
+
+  const confirmButton = $("#confirmResetDashboard");
+  if (confirmButton) {
+    confirmButton.disabled = true;
+    confirmButton.textContent = "Reiniciando...";
+  }
+
+  try {
+    const resetAt = Timestamp.now();
+    await setDoc(
+      doc(state.db, "adminConfig", "dashboard"),
+      {
+        resetAt,
+        updatedAt: serverTimestamp(),
+        resetByUid: state.adminUser.uid
+      },
+      { merge: true }
+    );
+
+    closeResetModal();
+    toast("✨ Tableros reiniciados. La nueva medición comienza desde ahora.");
+  } catch (error) {
+    console.error("Error reiniciando tableros", error);
+    toast("No fue posible reiniciar los tableros. Revisa las reglas de Firestore.");
+  } finally {
+    if (confirmButton) {
+      confirmButton.disabled = false;
+      confirmButton.textContent = "Sí, reiniciar";
+    }
+  }
+}
+
+function openResetModal() {
+  const modal = $("#resetDashboardModal");
+  if (!modal) return;
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+}
+
+function closeResetModal() {
+  const modal = $("#resetDashboardModal");
+  if (!modal) return;
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
 }
 
 function calculateStats(rows) {
@@ -232,8 +366,19 @@ function calculateStats(rows) {
   const total = validRows.length;
   const sum = validRows.reduce((acc, row) => acc + Number(row.happiness || 0), 0);
   const average = total ? sum / total : 0;
+
+  // "Con energía": niveles 4 y 5, porque ambos representan un estado
+  // igual o superior a "me siento bien y con energía".
   const energyCount = validRows.filter(row => Number(row.happiness) >= 4).length;
-  const pauseCount = validRows.filter(row => Array.isArray(row.needs) && row.needs.includes("pausa")).length;
+
+  // "Necesita una pausa": cuenta a quien marcó nivel 1 (la propia opción
+  // dice "Hoy necesito una pausa") O seleccionó "Una pausa" en la segunda
+  // pregunta. Se usa OR para no contar dos veces a la misma respuesta.
+  const pauseCount = validRows.filter(row => {
+    const needsPause = Array.isArray(row.needs) && row.needs.includes("pausa");
+    return Number(row.happiness) === 1 || needsPause;
+  }).length;
+
   const uniqueUsers = new Set(
     validRows
       .map(row => String(row.name || "").trim().toLocaleLowerCase("es"))
@@ -244,6 +389,8 @@ function calculateStats(rows) {
     total,
     average,
     uniqueUsers,
+    energyCount,
+    pauseCount,
     energyPct: total ? (energyCount / total) * 100 : 0,
     pausePct: total ? (pauseCount / total) * 100 : 0
   };
@@ -332,14 +479,18 @@ function renderAllRealtimeViews(rows, isNewResponse = false) {
   animateNumber($("#adminTotal"), stats.total);
   animateNumber($("#adminUsers"), stats.uniqueUsers);
   animateNumber($("#adminAvg"), stats.average, { decimals: 1 });
-  animateNumber($("#adminEnergy"), stats.energyPct, { suffix: "%" });
-  animateNumber($("#adminPause"), stats.pausePct, { suffix: "%" });
+  animateNumber($("#adminEnergy"), stats.energyPct, { decimals: 1, suffix: "%" });
+  animateNumber($("#adminPause"), stats.pausePct, { decimals: 1, suffix: "%" });
   $("#adminAvgFace").textContent = moodFace(stats.average);
+  $("#adminEnergyDetail").textContent = `${stats.energyCount} de ${stats.total} respuestas`;
+  $("#adminPauseDetail").textContent = `${stats.pauseCount} de ${stats.total} respuestas`;
 
   // Private dashboard KPI
   animateNumber($("#dashboardTotal"), stats.total);
-  animateNumber($("#dashboardEnergy"), stats.energyPct, { suffix: "%" });
-  animateNumber($("#dashboardPause"), stats.pausePct, { suffix: "%" });
+  animateNumber($("#dashboardEnergy"), stats.energyPct, { decimals: 1, suffix: "%" });
+  animateNumber($("#dashboardPause"), stats.pausePct, { decimals: 1, suffix: "%" });
+  $("#dashboardEnergyDetail").textContent = `${stats.energyCount} de ${stats.total}`;
+  $("#dashboardPauseDetail").textContent = `${stats.pauseCount} de ${stats.total}`;
   animateGauge(stats.average);
 
   const now = new Date();
@@ -632,6 +783,17 @@ $("#copyLink").addEventListener("click", async () => {
   } catch {
     toast("No se pudo copiar el enlace automáticamente.");
   }
+});
+
+
+$("#resetDashboard").addEventListener("click", openResetModal);
+$("#cancelResetDashboard").addEventListener("click", closeResetModal);
+$("#confirmResetDashboard").addEventListener("click", resetDashboardBoard);
+$("#resetDashboardModal").addEventListener("click", event => {
+  if (event.target.id === "resetDashboardModal") closeResetModal();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeResetModal();
 });
 
 initFirebase();
